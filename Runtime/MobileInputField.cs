@@ -473,8 +473,11 @@ namespace UMI {
             var yMax = float.NegativeInfinity;
             for (var i = 0; i < 4; i++) {
                 Vector3 coords;
-                if (rect.GetComponentInParent<Canvas>().renderMode == RenderMode.ScreenSpaceOverlay) {
+                var canvas = rect.GetComponentInParent<Canvas>();
+                if (canvas.renderMode == RenderMode.ScreenSpaceOverlay) {
                     coords = corners[i];
+                } else if (canvas.renderMode == RenderMode.ScreenSpaceCamera) {
+                    coords = canvas.worldCamera.WorldToScreenPoint (corners[i]);
                 } else {
                     coords = RectTransformUtility.WorldToScreenPoint(Camera.main, corners[i]);
                 }
